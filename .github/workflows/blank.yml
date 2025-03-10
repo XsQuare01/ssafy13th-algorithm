@@ -1,0 +1,22 @@
+name: Commit Message Check
+
+on: [pull_request]
+
+jobs:
+  check-commit-message:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Get commit messages
+        run: |
+          git log --format=%B -n 1 ${{ github.event.pull_request.head.sha }} > commit_msg.txt
+
+      - name: Validate commit message
+        run: |
+          COMMIT_MSG=$(cat commit_msg.txt)
+          if ! echo "$COMMIT_MSG" | grep -Eq "^(feat|fix|docs|style|refactor|test|chore): .+"; then
+            echo "❌ 커밋 메시지가 규칙을 따르지 않습니다!"
+            exit 1
+          fi
