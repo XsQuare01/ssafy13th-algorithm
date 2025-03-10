@@ -20,7 +20,7 @@ jobs:
       - name: Validate commit message
         run: |
           COMMIT_MSG=$(cat commit_msg.txt)
-          if ! echo "$COMMIT_MSG" | grep -Eq "^(feat|fix|docs|style|refactor|test|chore): .+"; then
+          if ! echo "$COMMIT_MSG" | grep -Eq "^(feat|fix|docs|style|refactor|test|chore|Merge|merge): .+"; then
             echo "❌ 커밋 메시지가 규칙을 따르지 않습니다!"
             exit 1
           fi
